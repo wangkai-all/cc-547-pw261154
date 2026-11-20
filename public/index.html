@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>产线双相机帧配对演示</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>产线双相机帧配对演示</h1>
+    <p class="subtitle">
+      双相机上报照片编号与触发计数，工位控制源独立上报产品通过信号；
+      接收端保留未配对件，组装端按触发周期关联，质检端只处理成对且属于同一产品的样本。
+    </p>
+    <div id="strategy-banner" class="banner">策略加载中…</div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>操作</h2>
+      <div class="actions">
+        <button id="btn-batch1">接收双相机帧</button>
+        <button id="btn-batch2">模拟复位后续收</button>
+        <button id="btn-qc">查看质检配对</button>
+      </div>
+      <details class="config">
+        <summary>代价配置（决定固定等待窗 / 动态校正，修改后清空数据重来）</summary>
+        <form id="config-form">
+          <label>错配代价 <input id="cost-mismatch" type="number" min="0" step="1" value="10"></label>
+          <label>漏配代价 <input id="cost-miss" type="number" min="0" step="1" value="1"></label>
+          <label>等待窗（对侧帧数） <input id="wait-window" type="number" min="0" step="1" value="3"></label>
+          <button type="submit">应用策略并重置</button>
+          <button type="button" id="btn-reset">清空重来</button>
+        </form>
+      </details>
+    </section>
+
+    <section class="panel" data-evidence-result="batch1" id="result-batch1">
+      <h2>① 接收双相机帧 — 处理结果</h2>
+      <div class="placeholder">尚未接收。点击「接收双相机帧」后，此处展示引擎实际处理得出的配对 / 漏配 / 重复 / 乱序结果。</div>
+    </section>
+
+    <section class="panel" data-evidence-result="reset" id="result-reset">
+      <h2>② 模拟复位后续收 — 处理结果</h2>
+      <div class="placeholder">尚未模拟。点击「模拟复位后续收」后，此处展示相机重新计数的处置与后续配对结果。</div>
+    </section>
+
+    <section class="panel" data-evidence-result="qc" id="result-qc">
+      <h2>③ 质检配对 — 当前判定</h2>
+      <div class="placeholder">点击「查看质检配对」后，此处展示质检接收 / 隔离 / 拒收明细。</div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
